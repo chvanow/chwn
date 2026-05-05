@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ============================================ -->
+  <!-- НАСТРОЙКИ САЙТА (редактируйте здесь)        -->
+  <!-- ============================================ -->
+  <title>chwn.ru — Вячеслав Чванов | Эксперт по делопроизводству</title>
+  <meta name="description" content="Авторские курсы по цифровизации документооборота">
+  <meta name="theme-color" content="#0b0b0f">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================ */
+    /* ЦВЕТОВАЯ СХЕМА (меняйте цвета здесь)        */
+    /* ============================================ */
+    :root {
+      --bg: #0b0b0f;                    /* Основной фон сайта */
+      --surface: #14141a;               /* Фон карточек и блоков */
+      --border: #2a2a35;                /* Цвет границ и разделителей */
+      --text: #e2e2e8;                  /* Основной цвет текста */
+      --text-muted: #9ca3af;            /* Цвет второстепенного текста */
+      --accent: #10b981;                /* Акцентный цвет (зелёный) */
+      --accent-hover: #059669;          /* Акцент при наведении */
+      --accent-glow: rgba(16, 185, 129, 0.25); /* Свечение акцента */
+      
+      /* Размеры и отступы */
+      --radius: 16px;                   /* Скругление углов */
+      --space-xs: 0.5rem;               /* Маленький отступ */
+      --space-sm: 1rem;                 /* Средний отступ */
+      --space-md: 1.5rem;               /* Стандартный отступ */
+      --space-lg: 3.5rem;               /* Большой отступ */
+      --space-xl: 4rem;                 /* Очень большой отступ */
+      --space-footer-top: 7rem;         /* Доп. отступ перед футером */
+      --space-footer-bottom: 4rem;      /* Доп. отступ внизу страницы */
+      /* Отступ после блока курсов */
+#courses {
+    margin-bottom: 85px; /* Регулируйте это число (например, 80px или 120px) */
+}
+      
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --shadow: 0 10px 30px rgba(0,0,0,0.4);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--space-footer-bottom);
+      position: relative;
+    }
+
+    /* ============================================ */
+    /* ФОНОВОЕ ИЗОБРАЖЕНИЕ / GIF                    */
+    /* ============================================ */
+    /* Чтобы добавить GIF на фон сайта:            */
+    /* 1. Загрузите ваш GIF-файл в корень сайта   */
+    /*    (например: background.gif)               */
+    /* 2. Раскомментируйте код ниже:               */
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('background.gif');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      z-index: -2;
+      opacity: 0.99;
+    }
+
+    /* Затемнённый оверлей поверх GIF для читаемости текста */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg);
+      z-index: -1;
+      opacity: 0.90;
+    }
+
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 var(--space-md); }
+    section { padding: var(--space-xl) 0; }
+    
+    h1, h2, h3 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: var(--space-sm); }
+    h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--space-md); }
+    h3 { font-size: 1.15rem; margin-bottom: var(--space-xs); }
+    p { color: var(--text-muted); margin-bottom: var(--space-sm); }
+    a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+    a:hover { opacity: 0.85; }
+    ul { padding-left: 1.5rem; margin-bottom: var(--space-sm); color: var(--text-muted); }
+    li { margin-bottom: 0.25rem; }
+
+    /* ============================================ */
+    /* КНОПКИ                                       */
+    /* ============================================ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius);
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none;
+      transition: var(--transition);
+    }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    
+    .tag { display: inline-block; padding: 0.2rem 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 99px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: var(--space-xs); }
+
+    /* ============================================ */
+    /* КАРТОЧКИ КУРСОВ                              */
+    /* ============================================ */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-sm);
+      transition: var(--transition); position: relative; overflow: hidden;
+      min-width: 320px;
+      max-width: 380px;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow); }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: var(--transition);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* ============================================ */
+    /* НАВИГАЦИЯ                                    */
+    /* ============================================ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11, 11, 15, 0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: var(--space-sm) 0;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: 700; font-size: 1.25rem; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; padding: 0; margin: 0; }
+    .nav-links a { color: var(--text-muted); font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+    /* ============================================ */
+    /* ГЛАВНЫЙ БЛОК                                 */
+    /* ============================================ */
+    .hero { padding: var(--space-xl) 0; text-align: center; }
+    .hero p { max-width: 650px; margin: 0 auto var(--space-md); font-size: 1.1rem; }
+    .hero-buttons { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
+
+    /* Фильтры */
+    .filter-bar {
+      display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--border); padding-bottom: var(--space-sm);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      padding: 0.5rem 1rem; background: transparent; border: none;
+      color: var(--text-muted); font-weight: 500; cursor: pointer;
+      border-radius: 8px; transition: var(--transition); white-space: nowrap;
+    }
+    .filter-btn:hover { color: var(--text); background: var(--surface); }
+    .filter-btn.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+
+    /* ============================================ */
+    /* КАРУСЕЛЬ КУРСОВ                              */
+    /* ============================================ */
+    .course-carousel-wrapper {
+      position: relative;
+      /* УМЕНЬШЕНО: было 60px, теперь 16px — стрелки ближе к карточкам */
+      padding: 0 16px;
+    }
+    
+    .course-carousel {
+      display: flex;
+      gap: var(--space-md);
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      /* УМЕНЬШЕНО: было 120px, теперь 16px — карточки ближе к стрелкам */
+      padding: var(--space-sm) 16px;
+      
+      /* Эффект размытия по краям — зона маски уменьшена пропорционально */
+      -webkit-mask-image: linear-gradient(
+        90deg,
+        transparent 0px,
+        black 16px,
+        black calc(100% - 16px),
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        90deg,
+        transparent 0px,
+        black 16px,
+        black calc(100% - 16px),
+        transparent 100%
+      );
+    }
+    .course-carousel::-webkit-scrollbar { display: none; }
+    
+    /* ============================================ */
+    /* КНОПКИ КАРУСЕЛИ                              */
+    /* ============================================ */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(20, 20, 26, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(42, 42, 53, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 10;
+      color: var(--text);
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .carousel-btn:hover {
+      background: rgba(16, 185, 129, 0.9);
+      border-color: var(--accent);
+      color: #000;
+      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4);
+    }
+    /* Позиционируем стрелки ближе к карусели */
+    .carousel-btn.prev { left: -8px; }
+    .carousel-btn.next { right: -8px; }
+    .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .course-card { display: flex; flex-direction: column; }
+    
+    .course-thumb {
+      width: 100%; 
+      height: 160px; 
+      background: var(--surface); 
+      border-radius: 12px;
+      margin-bottom: var(--space-sm); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    
+    .course-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .course-thumb img {
+      transform: scale(1.05);
+    }
+    
+    /* Иконка предпросмотра (глаз) */
+    .preview-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      background: rgba(11, 11, 15, 0.8);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 10;
+    }
+    .preview-icon:hover {
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.2);
+      transform: scale(1.05);
+    }
+    .preview-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--text);
+      transition: var(--transition);
+    }
+    .preview-icon:hover svg { fill: var(--accent); }
+    
+    .course-meta { display: flex; gap: var(--space-xs); margin: var(--space-xs) 0; flex-wrap: wrap; }
+    .course-features { list-style: none; padding: 0; margin: var(--space-sm) 0; flex-grow: 1; }
+    .course-features li { padding-left: 1.3rem; position: relative; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.3rem; }
+    .course-features li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); }
+    .course-card .btn { width: 100%; margin-top: auto; }
+
+    /* Блок с ценой */
+    .pricing-block {
+      margin: var(--space-sm) 0;
+      padding: var(--space-sm);
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .pricing-row strong { color: var(--text); font-size: 1.2rem; }
+    .payment-note {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: var(--space-xs);
+      opacity: 0.8;
+    }
+    .payment-methods {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-top: 0.4rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    .payment-methods span {
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    /* ============================================ */
+    /* ОБ АВТОРЕ                                    */
+    /* ============================================ */
+    .author-grid { display: grid; grid-template-columns: 1fr 280px; gap: var(--space-lg); align-items: center; }
+    .author-img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
+
+    /* ============================================ */
+    /* FAQ                                          */
+    /* ============================================ */
+        #faq {
+        /* Добавьте эту строку: */
+        padding: 5rem 0; /* 10rem сверху и снизу. Меняйте число, пока не понравится */
+    }
+    .faq-item { border-bottom: 1px solid var(--border); padding: var(--space-sm) 0; }
+    .faq-q { cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--text-muted); }
+    .faq-item.open .faq-a { max-height: 200px; padding-top: var(--space-xs); }
+    .faq-icon { transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ============================================ */
+    /* ПОДВАЛ                                       */
+    /* ============================================ */
+    footer { 
+      padding: var(--space-lg) 0; 
+      text-align: center; 
+      font-size: 0.9rem; 
+      color: var(--text-muted);
+      margin-top: var(--space-footer-top);
+      position: relative;
+    }
+    /* Добавляем укороченную линию */
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%; /* Регулируйте это значение: 60%, 70%, 80% и т.д. */
+      max-width: 800px; /* Или фиксированная ширина в пикселях */
+      border-top: 1px solid var(--border);
+    }
+    .legal { margin-top: var(--space-md); font-size: 0.8rem; opacity: 0.7; line-height: 1.5; }
+    .legal a { color: var(--accent); }
+    .legal-divider { margin: 0 0.5rem; opacity: 0.5; }
+
+    /* Анимации */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================ */
+    /* МОДАЛЬНОЕ ОКНО                               */
+    /* ============================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: var(--space-md);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 800px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      margin: 2rem auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 10;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.15rem; }
+    .modal-close {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.8rem; cursor: pointer; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--bg); color: var(--text); }
+    .modal-body { padding: var(--space-md); }
+    .preview-page {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: var(--space-md);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .preview-page img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .preview-label {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .preview-notice {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: var(--space-sm);
+      padding: var(--space-sm);
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    /* ============================================ */
+    /* АДАПТИВНОСТЬ                                 */
+    /* ============================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: var(--space-md); border-bottom: 1px solid var(--border); }
+      .nav-links.active { display: flex; }
+      .mobile-toggle { display: block; }
+      .hero-buttons { flex-direction: column; }
+      .btn { width: 100%; }
+      .author-grid { grid-template-columns: 1fr; }
+      .author-img { max-width: 240px; margin: 0 auto; }
+      .modal-content { margin: 0.5rem auto; }
+      .modal-overlay { padding: var(--space-xs); }
+      
+      /* На мобильных стрелки чуть отступают от края */
+      .course-carousel-wrapper { padding: 0 8px; }
+      .carousel-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+      .carousel-btn.prev { left: -4px; }
+      .carousel-btn.next { right: -4px; }
+      .card { min-width: 280px; }
+      
+      /* Уменьшаем маску на мобильных */
+      .course-carousel {
+        padding: var(--space-sm) 8px;
+        -webkit-mask-image: linear-gradient(
+          90deg,
+          transparent 0px,
+          black 8px,
+          black calc(100% - 8px),
+          transparent 100%
+        );
+        mask-image: linear-gradient(
+          90deg,
+          transparent 0px,
+          black 8px,
+          black calc(100% - 8px),
+          transparent 100%
+        );
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================ -->
+  <!-- НАВИГАЦИЯ                                    -->
+  <!-- ============================================ -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="logo">chwn.<span>ru</span></a>
+      <button class="mobile-toggle" aria-label="Меню">☰</button>
+      <ul class="nav-links">
+        <li><a href="#about">Обо мне</a></li>
+        <li><a href="#courses" class="active">Курсы</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================ -->
+  <!-- ГЛАВНЫЙ БЛОК                                 -->
+  <!-- ============================================ -->
+  <header class="hero container fade-up">
+    <span class="tag">Авторские курсы по делопроизводству</span>
+    <h1>Цифровизация документооборота:<br>системно, без хаоса и лишних трат</h1>
+    <p>Показываю, как выстроить прозрачные процессы, внедрить ЭДО без бюджета, создать простые и удобные инструменты для ведения и развития делопроизводства.</p>
+    <div class="hero-buttons">
+      <a href="#courses" class="btn btn-primary">Выбрать курс</a>
+      <a href="#about" class="btn btn-outline">Об авторе</a>
+    </div>
+  </header>
+
+  <!-- ============================================ -->
+  <!-- КАТАЛОГ КУРСОВ                               -->
+  <!-- ============================================ -->
+  <section id="courses" class="container fade-up">
+    <h2>Каталог курсов</h2>
+    
+    <div class="filter-bar">
+      <button class="filter-btn active">Все курсы</button>
+      <button class="filter-btn">Делопроизводство</button>
+      <button class="filter-btn">Контроль поручений</button>
+      <button class="filter-btn">Автоматизация</button>
+    </div>
+
+    <div class="course-carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollCarousel(-1)" aria-label="Влево">‹</button>
+      
+      <div class="course-carousel" id="courseCarousel">
+        
+        <!-- ============================================ -->
+        <!-- КУРС 1                                       -->
+        <!-- ============================================ -->
+        <div class="card course-card">
+          <div class="course-thumb">
+            <!-- Замените src на путь к вашей картинке -->
+            <img src="images/course1-preview.jpg" alt="Канцелярия.Цифра" loading="lazy">
+            <div class="preview-icon" onclick="openPreview()" title="Предварительный просмотр">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </div>
+          </div>
+          <h3>Канцелярия.Цифра</h3>
+          <p style="font-size: 0.85rem;">Внедрение электронного документооборота без бюджета. Пошаговый алгоритм, шаблоны регламентов, Excel-трекеры и автоматизация на базе Office 365.</p>
+          <div class="course-meta">
+            <span class="tag">Делопроизводство</span>
+            <span class="tag">Excel</span>
+            <span class="tag">ЭДО</span>
+          </div>
+          
+          <div class="pricing-block">
+            <div class="pricing-row" style="margin-bottom: 0.6rem;">
+              <strong>4 990 ₽</strong>
+            </div>
+            <!-- ССЫЛКА НА ОПЛАТУ: замените на вашу ссылку ЮKassa -->
+            <a href="https://yoomoney.ru/quickpay/confirm?..." class="btn btn-primary" style="width: 100%; font-size: 0.85rem;">
+              Купить курс
+            </a>
+            <p class="payment-note">
+              🔒 Оплата через ЮKassa: карты РФ, СБП<br>
+              Мгновенный доступ после оплаты
+            </p>
+            <div class="payment-methods">
+              <span>💳 Карты РФ</span>
+              <span>⚡ СБП</span>
+              <span>📱 ЮMoney</span>
+            </div>
+          </div>
+          
+          <ul class="course-features" style="margin-top: var(--space-sm);">
+            <li>7 практических разделов</li>
+            <li>Готовые шаблоны регламентов</li>
+            <li>Автоматизированный Excel-трекер</li>
+            <li>Чек-листы и памятки</li>
+          </ul>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- КУРС 2 (заглушка)                            -->
+        <!-- ============================================ -->
+        <div class="card course-card" style="opacity: 0.7;">
+          <div class="course-thumb">
+            <img src="images/course2-preview.jpg" alt="СЭД с нуля" loading="lazy" style="filter: grayscale(100%);">
+          </div>
+          <h3>Скоро: СЭД с нуля</h3>
+          <p style="font-size: 0.85rem;">Полноценное внедрение системы электронного документооборота: выбор платформы, миграция данных, обучение команды, юридическая значимость.</p>
+          <div class="course-meta">
+            <span class="tag">СЭД</span>
+            <span class="tag">Интеграция</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin: var(--space-sm) 0;">В разработке</p>
+          <button class="btn btn-outline" disabled style="width: 100%;">Скоро</button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- КУРС 3 (заглушка)                            -->
+        <!-- ============================================ -->
+        <div class="card course-card" style="opacity: 0.7;">
+          <div class="course-thumb">
+            <img src="images/course3-preview.jpg" alt="Контроль поручений" loading="lazy" style="filter: grayscale(100%);">
+          </div>
+          <h3>Скоро: Контроль поручений</h3>
+          <p style="font-size: 0.85rem;">Эффективное управление задачами: от постановки до исполнения. Техники приоритизации, система отслеживания сроков, работа с провалами.</p>
+          <div class="course-meta">
+            <span class="tag">Контроль поручений</span>
+            <span class="tag">Автоматизация</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin: var(--space-sm) 0;">В разработке</p>
+          <button class="btn btn-outline" disabled style="width: 100%;">Скоро</button>
+        </div>
+        
+      </div>
+      
+      <button class="carousel-btn next" onclick="scrollCarousel(1)" aria-label="Вправо">›</button>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- ОБ АВТОРЕ                                    -->
+  <!-- ============================================ -->
+  <section id="about" class="container fade-up">
+    <div class="author-grid">
+      <div>
+        <span class="tag">Об авторе</span>
+        <h2>Вячеслав Чванов</h2>
+        <p>13+ лет практики в организации делопроизводства. Прошёл путь от бумажных архивов до полной цифровизации процессов в структурах: Газпром, Росгеология, Общественная палата РФ, Dyson.</p>
+        <p>Ключевая компетенция — выстраивание прозрачных процессов. Цель: превращать тонны бумажной волокиты в управляемые цифровые потоки без раздутых бюджетов.</p>
+        <ul>
+          <li>Советник Общественной палаты РФ</li>
+          <li>Куратор документационного отдела Аппарата Уполномоченного при Президенте РФ по правам ребёнка</li>
+          <li>Внедрял системы ЭДО в госструктурах и коммерческих компаниях</li>
+        </ul>
+      </div>
+      <img src="author.jpg" alt="Вячеслав Чванов" class="author-img" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FAQ                                          -->
+  <!-- ============================================ -->
+  <section id="faq" class="container fade-up">
+    <h2>Частые вопросы</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Нужно ли знание Excel или программирования? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Нет. Все файлы готовы к использованию. Формулы и скрипты уже встроены. Достаточно базовых навыков работы с таблицами.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Подойдёт ли курс для госучреждений? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Да. Методика адаптирована под ФЗ-125 и ГОСТы. В курсе есть дисклеймер и рекомендации по учёту отраслевой специфики.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Как получить материалы? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Сразу после оплаты на почту придёт письмо со ссылками на скачивание PDF и архива с шаблонами. Доступ бессрочный.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Какие способы оплаты доступны? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Карты любых российских банков (Мир, Visa, Mastercard), СБП (по номеру телефона), ЮMoney. Все платежи защищены и соответствуют 54-ФЗ.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- ПОДВАЛ                                       -->
+  <!-- ============================================ -->
+  <footer id="contact" class="container">
+    <p>© <span id="year"></span> chwn.ru — Вячеслав Чванов. Все права защищены.</p>
+    <div class="legal">
+      <!-- РЕКВИЗИТЫ: замените на ваши данные -->
+      ИП Чванов В.А. • ИНН: 740414527847 • ОГРНИП: 324745600163021<br>
+      Оплата обрабатывается ООО «ЮKassa» (ИНН 7703363199). После оплаты вы получите чек в соответствии с 54-ФЗ.<br>
+      <a href="/oferta.pdf">Публичная оферта</a>
+      <span class="legal-divider">•</span>
+      <a href="/privacy.pdf">Политика конфиденциальности</a>
+      <span class="legal-divider">•</span>
+      <a href="mailto:vuoo@mail.ru">vuoo@mail.ru</a>
+    </div>
+  </footer>
+
+  <!-- ============================================ -->
+  <!-- МОДАЛЬНОЕ ОКНО                               -->
+  <!-- ============================================ -->
+  <div class="modal-overlay" id="previewModal" onclick="closePreviewOnOverlay(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Предварительный просмотр курса</h3>
+        <button class="modal-close" onclick="closePreview()" aria-label="Закрыть">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="preview-page">
+          <img src="preview/page-001.jpg" alt="Страница 1 курса" loading="lazy">
+          <div class="preview-label">Страница 1 из 4</div>
+        </div>
+        <div class="preview-page">
+          <img src="preview/page-002.jpg" alt="Страница 2 курса" loading="lazy">
+          <div class="preview-label">Страница 2 из 4</div>
+        </div>
+        <div class="preview-page">
+          <img src="preview/page-003.jpg" alt="Страница 3 курса" loading="lazy">
+          <div class="preview-label">Страница 3 из 4</div>
+        </div>
+        <div class="preview-page">
+          <img src="preview/page-004.jpg" alt="Страница 4 курса" loading="lazy">
+          <div class="preview-label">Страница 4 из 4</div>
+        </div>
+        
+        <div class="preview-notice">
+          Это превью курса. Полный материал доступен после покупки.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- СКРИПТЫ                                      -->
+  <!-- ============================================ -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const toggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => nav.classList.toggle('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    function scrollCarousel(direction) {
+      const carousel = document.getElementById('courseCarousel');
+      const scrollAmount = 340;
+      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
+    function openPreview() {
+      const modal = document.getElementById('previewModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePreview() {
+      const modal = document.getElementById('previewModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closePreviewOnOverlay(event) {
+      if (event.target === event.currentTarget) closePreview();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePreview();
+    });
+  </script>
+</body>
+</html>
