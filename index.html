@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>chwn.ru — Вячеслав Чванов | Эксперт по делопроизводству</title>
+  <meta name="description" content="Авторские курсы по цифровизации документооборота">
+  <meta name="theme-color" content="#0b0b0f">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --surface: #14141a;
+      --border: #2a2a35;
+      --text: #e2e2e8;
+      --text-muted: #9ca3af;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --radius: 16px;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 3.5rem;
+      --space-xl: 4rem;
+      --space-footer-top: 7rem;
+      --space-footer-bottom: 4rem;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --shadow: 0 10px 30px rgba(0,0,0,0.4);
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--space-footer-bottom);
+      position: relative;
+    }
+
+    /* ============================================ */
+    /* ФОНОВОЕ ИЗОБРАЖЕНИЕ / GIF                    */
+    /* ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('background.gif');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      z-index: -2;
+      opacity: 0.99;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg);
+      z-index: -1;
+      opacity: 0.90;
+    }
+
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 var(--space-md); }
+    section { padding: var(--space-xl) 0; }
+    
+    #courses { margin-bottom: 85px; }
+    
+    h1, h2, h3 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: var(--space-sm); }
+    h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--space-md); }
+    h3 { font-size: 1.15rem; margin-bottom: var(--space-xs); }
+    p { color: var(--text-muted); margin-bottom: var(--space-sm); }
+    a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+    a:hover { opacity: 0.85; }
+    ul { padding-left: 1.5rem; margin-bottom: var(--space-sm); color: var(--text-muted); }
+    li { margin-bottom: 0.25rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius);
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none;
+      transition: var(--transition);
+    }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    
+    .tag { display: inline-block; padding: 0.2rem 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 99px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: var(--space-xs); cursor: pointer; transition: var(--transition); }
+    .tag:hover { background: var(--border); color: var(--text); }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-sm);
+      transition: var(--transition); position: relative; overflow: hidden;
+      width: 420px; min-width: 420px; max-width: 420px;
+      height: auto; display: flex; flex-direction: column; flex-shrink: 0;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow); }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: var(--transition);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card.filtered-out { opacity: 0.15; pointer-events: none; transition: opacity 0.4s ease; }
+    .card.filtered-in { opacity: 1; transition: opacity 0.4s ease; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11, 11, 15, 0.4); 
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(42, 42, 53, 0.3); padding: var(--space-sm) 0;
+    }
+    .nav-inner { 
+        width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 var(--space-md); 
+        display: flex; justify-content: space-between; align-items: center; 
+    }
+    .logo { font-weight: 700; font-size: 1.6rem; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; padding: 0; margin: 0; }
+    .nav-links a { color: var(--text-muted); font-weight: 500; font-size: 1.1rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+    .hero { padding: var(--space-xl) 0; text-align: center; }
+    .hero p { max-width: 650px; margin: 0 auto var(--space-md); font-size: 1.1rem; }
+    .hero-buttons { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
+
+    .filter-bar {
+      display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--border); padding-bottom: var(--space-sm);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      padding: 0.5rem 1rem; background: transparent; border: none;
+      color: var(--text-muted); font-weight: 500; cursor: pointer;
+      border-radius: 8px; transition: var(--transition); white-space: nowrap;
+    }
+    .filter-btn:hover { color: var(--text); background: var(--surface); }
+    .filter-btn.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+
+    .course-carousel-wrapper { position: relative; padding: 0 40px; }
+    
+    .course-carousel {
+      display: flex; gap: var(--space-md); overflow-x: auto; scroll-behavior: smooth;
+      scrollbar-width: none; -ms-overflow-style: none; padding: var(--space-sm) 120px;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0px, black 120px, black calc(100% - 120px), transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0px, black 120px, black calc(100% - 120px), transparent 100%);
+    }
+    .course-carousel::-webkit-scrollbar { display: none; }
+    
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; background: rgba(20, 20, 26, 0.7);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(42, 42, 53, 0.5); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); z-index: 10;
+      color: var(--text); font-size: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .carousel-btn:hover { background: rgba(16, 185, 129, 0.9); border-color: var(--accent); color: #000; box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4); }
+    .carousel-btn.prev { left: -20px; }
+    .carousel-btn.next { right: -20px; }
+    .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .course-card { display: flex; flex-direction: column; }
+    
+    .course-thumb {
+      width: 100%; height: 80px; background: var(--surface); border-radius: 12px;
+      margin-bottom: var(--space-md); display: flex; align-items: center; 
+      justify-content: center; position: relative; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0;
+    }
+    .course-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.5s ease; }
+    .card:hover .course-thumb img { transform: scale(1.05); }
+    
+    .preview-icon {
+      position: absolute; top: 6px; right: 6px; width: 34px; height: 34px;
+      background: rgba(11, 11, 15, 0.8); backdrop-filter: blur(4px);
+      border: 1px solid var(--border); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); z-index: 10;
+    }
+    .preview-icon:hover { border-color: var(--accent); background: rgba(16, 185, 129, 0.2); transform: scale(1.05); }
+    .preview-icon svg { width: 16px; height: 16px; fill: var(--text); transition: var(--transition); }
+    .preview-icon:hover svg { fill: var(--accent); }
+    
+    .course-meta { display: flex; gap: var(--space-xs); margin: var(--space-xs) 0; flex-wrap: wrap; }
+    .course-features { list-style: none; padding: 0; margin: var(--space-sm) 0; flex-grow: 1; }
+    .course-features li { padding-left: 1.3rem; position: relative; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.2rem; }
+    .course-features li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); }
+    .course-card .btn { width: 100%; margin-top: auto; }
+
+    .pricing-block { margin: var(--space-sm) 0; padding: var(--space-xs); background: var(--bg); border-radius: 12px; border: 1px solid var(--border); text-align: center; }
+    .pricing-row strong { color: var(--text); font-size: 1.25rem; } 
+    .payment-note { font-size: 0.6rem; color: var(--text-muted); text-align: center; margin-top: var(--space-xs); opacity: 0.8; }
+    .payment-methods { display: flex; gap: 0.4rem; justify-content: center; margin-top: 0.4rem; font-size: 0.55rem; color: var(--text-muted); }
+    .payment-methods span { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); margin-top: var(--space-md); }
+    .stat-item { text-align: center; padding: var(--space-sm); background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); }
+    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--accent); line-height: 1; display: block; }
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; display: block; }
+
+    .benefits-section { padding: 0; }
+    .benefits-container {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 24px; padding: var(--space-lg);
+    }
+    .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
+    .benefit-item { text-align: center; padding: var(--space-md); transition: var(--transition); }
+    .benefit-item:hover { transform: translateY(-4px); }
+    .benefit-icon {
+      width: 48px; height: 48px; margin: 0 auto var(--space-xs); display: block;
+      color: #ffffff; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .benefit-title { font-weight: 600; display: block; margin-bottom: 0.25rem; color: var(--text); }
+    .benefit-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+    .author-grid { display: grid; grid-template-columns: 1fr 280px; gap: var(--space-lg); align-items: center; }
+    .author-img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
+
+    #faq { padding: 5rem 0; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: var(--space-sm) 0; }
+    .faq-q { cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--text-muted); }
+    .faq-item.open .faq-a { max-height: 200px; padding-top: var(--space-xs); }
+    .faq-icon { transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    footer { 
+      padding: var(--space-lg) 0; text-align: center; font-size: 0.9rem; color: var(--text-muted);
+      margin-top: var(--space-footer-top); position: relative;
+    }
+    footer::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 80%; max-width: 800px; border-top: 1px solid var(--border);
+    }
+    footer p { margin-top: 1.5rem; }
+    .legal { margin-top: var(--space-md); font-size: 0.8rem; opacity: 0.7; line-height: 1.5; }
+    .legal a { color: var(--accent); }
+    .legal-divider { margin: 0 0.5rem; opacity: 0.5; }
+
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    #backToTop {
+      position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px;
+      background: var(--accent); border: none; border-radius: 50%; cursor: pointer;
+      opacity: 0; visibility: hidden; transition: var(--transition); z-index: 99;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); display: flex;
+      align-items: center; justify-content: center; padding: 0;
+    }
+    #backToTop svg { width: 28px; height: 28px; fill: none; stroke: #000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    #backToTop:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(16, 185, 129, 0.6); }
+    #backToTop.show { opacity: 1; visibility: visible; }
+
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 11, 15, 0.6); backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%); z-index: 1000;
+      display: none; align-items: flex-start; justify-content: center;
+      padding: var(--space-md); opacity: 0; transition: opacity 0.3s ease; overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    
+    .modal-content {
+      background: rgba(20, 20, 26, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border); border-radius: var(--radius); max-width: 1000px;
+      width: 100%; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); margin: 2rem auto;
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center; padding: var(--space-md);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0;
+      background: rgba(20, 20, 26, 0.98); backdrop-filter: blur(10px); z-index: 10;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.15rem; }
+    .modal-close {
+      background: none; border: none; color: var(--text-muted); font-size: 1.8rem;
+      cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center;
+      justify-content: center; border-radius: 8px; transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--bg); color: var(--text); }
+    .modal-body { padding: var(--space-md); }
+    .preview-page { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: var(--space-md); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+    .preview-page img { width: 100%; height: auto; display: block; }
+    .preview-label { text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem; border-top: 1px solid var(--border); }
+    .preview-notice { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: var(--space-sm); padding: var(--space-sm); background: var(--bg); border-radius: 8px; border: 1px solid var(--border); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: var(--space-md); border-bottom: 1px solid var(--border); }
+      .nav-links.active { display: flex; }
+      .mobile-toggle { display: block; }
+      .hero-buttons { flex-direction: column; }
+      .btn { width: 100%; }
+      .author-grid { grid-template-columns: 1fr; }
+      .author-img { max-width: 240px; margin: 0 auto; }
+      .modal-content { margin: 0.5rem auto; max-width: 95%; }
+      .modal-overlay { padding: var(--space-xs); }
+      
+      .course-carousel-wrapper { padding: 0 20px; }
+      .carousel-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+      .carousel-btn.prev { left: -10px; }
+      .carousel-btn.next { right: -10px; }
+      .card { width: 340px; min-width: 340px; max-width: 340px; }
+      .course-card { display: flex; flex-direction: column; }
+      
+      .course-carousel {
+        padding: var(--space-sm) 60px;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0px, black 60px, black calc(100% - 60px), transparent 100%);
+        mask-image: linear-gradient(90deg, transparent 0px, black 60px, black calc(100% - 60px), transparent 100%);
+      }
+      
+      .stats-grid { grid-template-columns: 1fr; }
+      
+      #backToTop { bottom: 1rem; right: 1rem; width: 50px; height: 50px; }
+      #backToTop svg { width: 24px; height: 24px; }
+
+      .benefits-container { border-radius: 16px; padding: var(--space-md); }
+      .benefits-grid { grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+      .benefit-icon { width: 40px; height: 40px; }
+      .benefit-title { font-size: 0.9rem; }
+      .benefit-desc { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      .benefits-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">chwn.<span>ru</span></a>
+      <button class="mobile-toggle" aria-label="Меню">☰</button>
+      <ul class="nav-links">
+        <li><a href="#courses" class="active">Курсы</a></li>
+        <li><a href="#about">Обо мне</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero container fade-up">
+    <span class="tag">Авторские курсы по делопроизводству</span>
+    <h1>Цифровизация документооборота:<br>системно, без хаоса и лишних трат</h1>
+    <p>Показываю, как выстроить прозрачные процессы, внедрить ЭДО без бюджета, создать простые и удобные инструменты для ведения и развития делопроизводства.</p>
+    <div class="hero-buttons">
+      <a href="#courses" class="btn btn-primary">Выбрать курс</a>
+      <a href="#about" class="btn btn-outline">Об авторе</a>
+    </div>
+  </header>
+
+  <section id="courses" class="container fade-up">
+    <h2>Каталог курсов</h2>
+    
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Все курсы</button>
+      <button class="filter-btn" data-filter="deloproizvodstvo">Делопроизводство</button>
+      <button class="filter-btn" data-filter="kontrol">Контроль поручений</button>
+      <button class="filter-btn" data-filter="avtomatizatsiya">Автоматизация</button>
+    </div>
+
+    <div class="course-carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollCarousel(-1)" aria-label="Влево">‹</button>
+      
+      <div class="course-carousel" id="courseCarousel">
+        
+        <div class="card course-card" data-category="deloproizvodstvo excel edo">
+          <div class="course-thumb">
+            <img src="images/course1-preview.jpg" alt="Канцелярия.Цифра" loading="lazy">
+            <div class="preview-icon" onclick="openPreview()" title="Предварительный просмотр">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </div>
+          </div>
+          <h3>Канцелярия.Цифра</h3>
+          <p style="font-size: 0.8rem;">Внедрение электронного документооборота без бюджета. Пошаговый алгоритм, шаблоны регламентов, Excel-трекеры и автоматизация на базе Office 365.</p>
+          <div class="course-meta">
+            <span class="tag">Делопроизводство</span>
+            <span class="tag">Excel</span>
+            <span class="tag">ЭДО</span>
+          </div>
+          
+          <ul class="course-features" style="margin-top: var(--space-sm);">
+            <li>7 практических разделов</li>
+            <li>Готовые шаблоны регламентов</li>
+            <li>Автоматизированный Excel-трекер</li>
+            <li>Чек-листы и памятки</li>
+          </ul>
+          
+          <div class="pricing-block">
+            <div class="pricing-row" style="margin-bottom: 0.6rem;"><strong>4 990 ₽</strong></div>
+            <a href="https://yoomoney.ru/quickpay/confirm?..." class="btn btn-primary buy-course-btn" style="width: 100%; font-size: 1rem;">Купить курс</a>
+            <p class="payment-note">🔒 Оплата через ЮKassa: карты РФ, СБП<br>Мгновенный доступ после оплаты</p>
+            <div class="payment-methods">
+              <span>💳 Карты РФ</span>
+              <span>⚡ СБП</span>
+              <span>📱 ЮMoney</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card course-card" data-category="sed integratsiya" style="opacity: 0.7;">
+          <div class="course-thumb"><img src="images/course2-preview.jpg" alt="СЭД с нуля" loading="lazy" style="filter: grayscale(100%);"></div>
+          <h3>Скоро: СЭД с нуля</h3>
+          <p style="font-size: 0.8rem;">Полноценное внедрение системы электронного документооборота: выбор платформы, миграция данных, обучение команды, юридическая значимость.</p>
+          <div class="course-meta"><span class="tag">СЭД</span><span class="tag">Интеграция</span></div>
+          <ul class="course-features" style="margin-top: var(--space-sm);">
+            <li>Полный цикл внедрения СЭД</li><li>Выбор платформы под задачи</li><li>Миграция данных без потерь</li><li>Обучение команды</li>
+          </ul>
+          <div class="pricing-block"><div class="pricing-row" style="margin-bottom: 0.6rem;"><strong>В разработке</strong></div><button class="btn btn-outline" disabled style="width: 100%; font-size: 1rem;">Скоро</button></div>
+        </div>
+
+        <div class="card course-card" data-category="kontrol avtomatizatsiya" style="opacity: 0.7;">
+          <div class="course-thumb"><img src="images/course3-preview.jpg" alt="Контроль поручений" loading="lazy" style="filter: grayscale(100%);"></div>
+          <h3>Скоро: Контроль поручений</h3>
+          <p style="font-size: 0.8rem;">Эффективное управление задачами: от постановки до исполнения. Техники приоритизации, система отслеживания сроков, работа с провалами.</p>
+          <div class="course-meta"><span class="tag">Контроль поручений</span><span class="tag">Автоматизация</span></div>
+          <ul class="course-features" style="margin-top: var(--space-sm);">
+            <li>Система контроля и отчетности</li><li>Автоматические уведомления</li><li>Аналитика по исполнителям</li><li>Шаблоны чек-листов</li>
+          </ul>
+          <div class="pricing-block"><div class="pricing-row" style="margin-bottom: 0.6rem;"><strong>В разработке</strong></div><button class="btn btn-outline" disabled style="width: 100%; font-size: 1rem;">Скоро</button></div>
+        </div>
+
+        <div class="card course-card" data-category="avtomatizatsiya" style="opacity: 0.7;">
+          <div class="course-thumb"><img src="images/course3-preview.jpg" alt="Работа с персоналом" loading="lazy" style="filter: grayscale(100%);"></div>
+          <h3>Скоро: Работа с персоналом</h3>
+          <p style="font-size: 0.8rem;">Выстраивание работы с персоналом</p>
+          <div class="course-meta"><span class="tag">Автоматизация</span></div>
+          <ul class="course-features" style="margin-top: var(--space-sm);">
+            <li>Организация работы отдела</li><li>Регламенты взаимодействия</li><li>Автоматизация рутины</li><li>Роботизация (RPA)</li>
+          </ul>
+          <div class="pricing-block"><div class="pricing-row" style="margin-bottom: 0.6rem;"><strong>В разработке</strong></div><button class="btn btn-outline" disabled style="width: 100%; font-size: 1rem;">Скоро</button></div>
+        </div>
+        
+      </div>
+      
+      <button class="carousel-btn next" onclick="scrollCarousel(1)" aria-label="Вправо">›</button>
+    </div>
+  </section>
+
+  <section id="about" class="container fade-up">
+    <div class="author-grid">
+      <div>
+        <span class="tag">Об авторе</span>
+        <h2>Вячеслав Чванов</h2>
+        <p>13+ лет практики в организации делопроизводства. Прошёл путь от бумажных архивов до полной цифровизации процессов в структурах: Газпром, Росгеология, Общественная палата РФ, Dyson.</p>
+        <p>Ключевая компетенция — выстраивание прозрачных процессов. Цель: превращать тонны бумажной волокиты в управляемые цифровые потоки без раздутых бюджетов.</p>
+        <ul>
+          <li>Советник Общественной палаты РФ</li>
+          <li>Куратор документационного отдела Аппарата Уполномоченного при Президенте РФ по правам ребёнка</li>
+          <li>Внедрял системы ЭДО в госструктурах и коммерческих компаниях</li>
+        </ul>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-number" data-target="13">0</span><span class="stat-label">лет практики</span></div>
+          <div class="stat-item"><span class="stat-number" data-target="11">0</span><span class="stat-label">внедрений</span></div>
+          <div class="stat-item"><span class="stat-number" data-target="100">0</span><span class="stat-label">экономии времени</span></div>
+        </div>
+      </div>
+      <img src="author.jpg" alt="Вячеслав Чванов" class="author-img" loading="lazy">
+    </div>
+  </section>
+
+  <section class="container fade-up" style="margin-top: var(--space-xl);">
+    <div class="benefits-section">
+      <div class="benefits-container">
+        <h2 style="text-align: center; margin-bottom: var(--space-lg);">Что вы получите после ознакомления с курсами</h2>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <strong class="benefit-title">Экономия времени</strong>
+            <p class="benefit-desc">Более 2 часов в день на рутине</p>
+          </div>
+          <div class="benefit-item">
+            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <strong class="benefit-title">Прозрачность</strong>
+            <p class="benefit-desc">Контроль всех процессов в реальном времени</p>
+          </div>
+          <div class="benefit-item">
+            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <strong class="benefit-title">Экономия бюджета</strong>
+            <p class="benefit-desc">Внедрение без затрат на ПО</p>
+          </div>
+          <div class="benefit-item">
+            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <strong class="benefit-title">Безопасность</strong>
+            <p class="benefit-desc">Соответствие ФЗ-125 "Об архивном деле в РФ" и ГОСТам</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="container fade-up">
+    <h2>Частые вопросы</h2>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Нужно ли знание Excel или программирования? <span class="faq-icon">+</span></div><div class="faq-a">Нет. Все файлы готовы к использованию. Формулы и скрипты уже встроены. Достаточно базовых навыков работы с таблицами.</div></div>
+      <div class="faq-item"><div class="faq-q">Подойдёт ли курс для госучреждений? <span class="faq-icon">+</span></div><div class="faq-a">Да. Методика адаптирована под ФЗ-125 и ГОСТы. В курсе есть дисклеймер и рекомендации по учёту отраслевой специфики.</div></div>
+      <div class="faq-item"><div class="faq-q">Как получить материалы? <span class="faq-icon">+</span></div><div class="faq-a">Сразу после оплаты на почту придёт письмо со ссылками на скачивание PDF и архива с шаблонами. Доступ бессрочный.</div></div>
+      <div class="faq-item"><div class="faq-q">Какие способы оплаты доступны? <span class="faq-icon">+</span></div><div class="faq-a">Карты любых российских банков (Мир, Visa, Mastercard), СБП (по номеру телефона), ЮMoney. Все платежи защищены и соответствуют 54-ФЗ.</div></div>
+    </div>
+  </section>
+
+  <footer id="contact" class="container">
+    <p>© <span id="year"></span> chwn.ru — Вячеслав Чванов. Все права защищены.</p>
+    <div class="legal">
+      ИП Чванов В.А. • ИНН: 740414527847 • ОГРНИП: 324745600163021<br>
+      Оплата обрабатывается ООО «ЮKassa» (ИНН 7703363199). После оплаты вы получите чек в соответствии с 54-ФЗ.<br>
+      <a href="/oferta.pdf">Публичная оферта</a> <span class="legal-divider">•</span>
+      <a href="/privacy.pdf">Политика конфиденциальности</a> <span class="legal-divider">•</span>
+      <a href="mailto:vuoo@mail.ru">vuoo@mail.ru</a>
+    </div>
+  </footer>
+
+  <button id="backToTop" aria-label="Наверх">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <div class="modal-overlay" id="previewModal" onclick="closePreviewOnOverlay(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Предварительный просмотр курса</h3>
+        <button class="modal-close" onclick="closePreview()" aria-label="Закрыть">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="preview-page"><img src="preview/page-001.jpg" alt="Страница 1 курса" loading="lazy"><div class="preview-label">Страница 1 из 4</div></div>
+        <div class="preview-page"><img src="preview/page-002.jpg" alt="Страница 2 курса" loading="lazy"><div class="preview-label">Страница 2 из 4</div></div>
+        <div class="preview-page"><img src="preview/page-003.jpg" alt="Страница 3 курса" loading="lazy"><div class="preview-label">Страница 3 из 4</div></div>
+        <div class="preview-page"><img src="preview/page-004.jpg" alt="Страница 4 курса" loading="lazy"><div class="preview-label">Страница 4 из 4</div></div>
+        <div class="preview-notice">Это превью курса. Полный материал доступен после покупки.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const toggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => nav.classList.toggle('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+
+    document.querySelectorAll('.faq-q').forEach(q => { q.addEventListener('click', () => { q.parentElement.classList.toggle('open'); }); });
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const courseCards = document.querySelectorAll('.course-card');
+    const carousel = document.getElementById('courseCarousel');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const filterValue = button.getAttribute('data-filter');
+        courseCards.forEach(card => {
+          const categories = card.getAttribute('data-category');
+          const categoryArray = categories ? categories.trim().split(/\s+/) : [];
+          const matches = filterValue === 'all' || categoryArray.includes(filterValue);
+          if (matches) { card.classList.remove('filtered-out'); card.classList.add('filtered-in'); setTimeout(() => { card.style.opacity = '1'; }, 50); }
+          else { card.classList.remove('filtered-in'); card.classList.add('filtered-out'); card.style.opacity = '0.15'; }
+        });
+        setTimeout(() => {
+          const visibleCards = Array.from(courseCards).filter(card => {
+            const categories = card.getAttribute('data-category');
+            const categoryArray = categories ? categories.trim().split(/\s+/) : [];
+            return filterValue === 'all' || categoryArray.includes(filterValue);
+          });
+          if (visibleCards.length > 0) {
+            const firstVisibleCard = visibleCards[0];
+            const cardLeft = firstVisibleCard.offsetLeft;
+            const wrapperPadding = 120;
+            carousel.scrollTo({ left: Math.max(0, cardLeft - wrapperPadding), behavior: 'smooth' });
+          }
+        }, 500);
+      });
+    });
+
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.stat-number').forEach(el => {
+            const target = +el.getAttribute('data-target');
+            let count = 0; const increment = target / 30;
+            const timer = setInterval(() => {
+              count += increment;
+              if (count >= target) { el.textContent = target + (target === 100 ? '%' : '+'); clearInterval(timer); }
+              else { el.textContent = Math.floor(count) + (target === 100 ? '%' : '+'); }
+            }, 50);
+          });
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    if (document.querySelector('#about')) statObserver.observe(document.querySelector('#about'));
+
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) backToTop.classList.add('show');
+      else backToTop.classList.remove('show');
+    });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Анимация кнопки "Купить" (без конфетти)
+    document.querySelectorAll('.buy-course-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => btn.style.transform = '', 150);
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    function scrollCarousel(direction) { carousel.scrollBy({ left: direction * 460, behavior: 'smooth' }); }
+    function openPreview() { document.getElementById('previewModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closePreview() { document.getElementById('previewModal').classList.remove('active'); document.body.style.overflow = ''; }
+    function closePreviewOnOverlay(event) { if (event.target === event.currentTarget) closePreview(); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreview(); });
+  </script>
+</body>
+</html>
